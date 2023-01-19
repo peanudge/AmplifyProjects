@@ -1,0 +1,14 @@
+{
+  "name": "amplify-projects",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "private": true,
+  "devDependencies": {
+    "nx": "15.5.2",
+    "prettier": "^2.6.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
