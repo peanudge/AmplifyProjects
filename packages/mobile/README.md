@@ -67,13 +67,31 @@ includeBuild('../../../node_modules/react-native-gradle-plugin')
 
 ```
 //   The folder where the react-native NPM package is. Default is ../node_modules/react-native
-reactNativeDir = file("../../../node_modules/react-native")
+reactNativeDir = file("../../../../node_modules/react-native")
 //   The folder where the react-native Codegen package is. Default is ../node_modules/react-native-codegen
-codegenDir = file("../../../node_modules/react-native-codegen")
+codegenDir = file("../../../../node_modules/react-native-codegen")
 //   The cli.js file which is the React Native CLI entrypoint. Default is ../node_modules/react-native/cli.js
-cliFile = file("../../../node_modules/react-native/cli.js")
+cliFile = file("../../../../node_modules/react-native/cli.js")
 
 ...
 
 apply from: file("../../../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+```
+
+## Update `metro.config.js`
+
+```javascript
+const path = require('path');
+
+module.exports = {
+  watchFolders: [path.resolve(__dirname, '../../node_modules')],
+  transformer: {
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: true,
+      },
+    }),
+  },
+};
 ```

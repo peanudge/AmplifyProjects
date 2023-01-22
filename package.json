@@ -2,7 +2,10 @@
   "name": "amplify-projects",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "ios": "nx ios mobile",
+    "android": "nx ios mobile"
+  },
   "private": true,
   "devDependencies": {
     "nx": "15.5.2",
