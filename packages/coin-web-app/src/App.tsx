@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { API } from "aws-amplify";
 
+type Coin = {
+  name: string;
+  symbol: string;
+  price_usd: string;
+};
 function App() {
+  const [coins, updateCoins] = useState<Coin[]>([]);
+
+  async function fetchCoins() {
+    const data = await API.get("cryptoapi", "/coins", {});
+    updateCoins(data.coins as Coin[]);
+  }
+
+  useEffect(() => {
+    fetchCoins();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {coins.map((coin, idx) => {
+        return (
+          <div key={idx}>
+            <h2>
+              {coin.name} - {coin.symbol}
+            </h2>
+            <h5>${coin.price_usd}</h5>
+          </div>
+        );
+      })}
     </div>
   );
 }
