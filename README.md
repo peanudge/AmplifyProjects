@@ -11,3 +11,7 @@ Use NX [`package-based` scaffold](https://nx.dev/getting-started/package-based-r
 ```bash
 $ npx create-nx-workspace@latest package-based --preset=npm
 ```
+
+# Example
+
+- Serverless Lambda and API Gateway(branch: `training/serverless`)
