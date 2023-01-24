@@ -8,20 +8,14 @@ import { listNotes } from "./graphql/queries";
 import {
   createNote as CreateNote,
   deleteNote as DeleteNote,
+  updateNote as UpdateNote,
 } from "./graphql/mutations";
-import { CreateNoteInput, Note } from "./API";
+import { Note } from "./API";
 
 const CLIENT_ID = uuid();
 
-type State = {
-  notes: Note[];
-  loading: boolean;
-  error: boolean;
-  form: CreateNoteInput;
-};
-
 const initialState = {
-  notes: [],
+  notes: [] as Note[],
   loading: true,
   error: false,
   form: { name: "", description: "" },
@@ -30,13 +24,13 @@ const initialState = {
 function reducer(state = initialState, action: any) {
   switch (action.type) {
     case "ADD_NOTE":
-      return { ...state, notes: [action.note, ...state.notes] };
+      return { ...state, notes: [action.note as Note, ...state.notes] };
     case "RESET_FORM":
       return { ...state, form: initialState.form };
     case "SET_INPUT":
       return { ...state, form: { ...state.form, [action.name]: action.value } };
     case "SET_NOTES":
-      return { ...state, notes: action.notes, loading: false };
+      return { ...state, notes: action.notes as Note[], loading: false };
     case "ERROR":
       return { ...state, loading: false, error: true };
     default:
@@ -96,6 +90,24 @@ const App: React.FC = () => {
     }
   }
 
+  async function updateNote(note: Note) {
+    const index = state.notes.findIndex((n) => n.id === note.id);
+    const notes = [...state.notes];
+    notes[index].completed = !note.completed;
+    dispatch({ type: "SET_NOTES", notes });
+    try {
+      await API.graphql({
+        query: UpdateNote,
+        variables: {
+          input: { id: note.id, completed: notes[index].completed },
+        },
+      });
+      console.log("note successfully updated!");
+    } catch (err) {
+      console.log("error: ", err);
+    }
+  }
+
   useEffect(() => {
     fetchNotes();
   }, []);
@@ -107,6 +119,9 @@ const App: React.FC = () => {
         actions={[
           <p style={styles.p} onClick={() => deleteNote(item)}>
             Delete
+          </p>,
+          <p style={styles.p} onClick={() => updateNote(item)}>
+            {item.completed ? "completed" : "mark completed"}
           </p>,
         ]}
       >
@@ -150,7 +165,7 @@ const styles = {
   container: { padding: 20 },
   input: { marginBottom: 10 },
   item: { textAlign: "left" },
-  p: { color: "#1890ff" },
+  p: { color: "#1890ff", cursor: "pointer" },
 };
 
 export default App;
