@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import "./App.css";
 import { API } from "aws-amplify";
+
 import { List, Input, Button } from "antd";
 import "antd/dist/reset.css";
 import { v4 as uuid } from "uuid";
@@ -10,7 +11,10 @@ import {
   deleteNote as DeleteNote,
   updateNote as UpdateNote,
 } from "./graphql/mutations";
+import { onCreateNote } from "./graphql/subscriptions";
 import { Note } from "./API";
+
+import { GraphQLSubscription } from "@aws-amplify/api";
 
 const CLIENT_ID = uuid();
 
@@ -110,6 +114,18 @@ const App: React.FC = () => {
 
   useEffect(() => {
     fetchNotes();
+    const subscription = API.graphql<
+      GraphQLSubscription<{ onCreateNote: Note }>
+    >({
+      query: onCreateNote,
+    }).subscribe({
+      next: ({ value }) => {
+        const note = value.data?.onCreateNote;
+        if (!note || CLIENT_ID === note.clientId) return;
+        dispatch({ type: "ADD_NOTE", note });
+      },
+    });
+    return () => subscription.unsubscribe();
   }, []);
 
   function renderItem(item: Note) {
