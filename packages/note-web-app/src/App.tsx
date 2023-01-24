@@ -1,11 +1,24 @@
 import React, { useEffect, useReducer } from "react";
 import "./App.css";
 import { API } from "aws-amplify";
-import { List } from "antd";
+import { List, Input, Button } from "antd";
 import "antd/dist/reset.css";
-
+import { v4 as uuid } from "uuid";
 import { listNotes } from "./graphql/queries";
-import { Note } from "./API";
+import {
+  createNote as CreateNote,
+  deleteNote as DeleteNote,
+} from "./graphql/mutations";
+import { CreateNoteInput, Note } from "./API";
+
+const CLIENT_ID = uuid();
+
+type State = {
+  notes: Note[];
+  loading: boolean;
+  error: boolean;
+  form: CreateNoteInput;
+};
 
 const initialState = {
   notes: [],
@@ -16,6 +29,12 @@ const initialState = {
 
 function reducer(state = initialState, action: any) {
   switch (action.type) {
+    case "ADD_NOTE":
+      return { ...state, notes: [action.note, ...state.notes] };
+    case "RESET_FORM":
+      return { ...state, form: initialState.form };
+    case "SET_INPUT":
+      return { ...state, form: { ...state.form, [action.name]: action.value } };
     case "SET_NOTES":
       return { ...state, notes: action.notes, loading: false };
     case "ERROR":
@@ -25,7 +44,7 @@ function reducer(state = initialState, action: any) {
   }
 }
 
-function App() {
+const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   async function fetchNotes() {
     try {
@@ -40,20 +59,84 @@ function App() {
     }
   }
 
+  async function createNote() {
+    const { form } = state;
+    if (!form.name || !form.description) {
+      return alert("please enter a name and description");
+    }
+    const note = { ...form, clientId: CLIENT_ID, completed: false, id: uuid() };
+    dispatch({ type: "ADD_NOTE", note });
+    dispatch({ type: "RESET_FORM" });
+    try {
+      await API.graphql({
+        query: CreateNote,
+        variables: { input: note },
+      });
+      console.log("successfully created note!");
+    } catch (err) {
+      console.log("error: ", err);
+    }
+  }
+
+  async function deleteNote({ id }: { id: string }) {
+    const index = state.notes.findIndex((n: Note) => n.id === id);
+    const notes = [
+      ...state.notes.slice(0, index),
+      ...state.notes.slice(index + 1),
+    ];
+    dispatch({ type: "SET_NOTES", notes });
+    try {
+      await API.graphql({
+        query: DeleteNote,
+        variables: { input: { id } },
+      });
+      console.log("successfully deleted note!");
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
   useEffect(() => {
     fetchNotes();
   }, []);
 
   function renderItem(item: Note) {
     return (
-      <List.Item style={{ textAlign: "left" }}>
+      <List.Item
+        style={{ textAlign: "left" }}
+        actions={[
+          <p style={styles.p} onClick={() => deleteNote(item)}>
+            Delete
+          </p>,
+        ]}
+      >
         <List.Item.Meta title={item.name} description={item.description} />
       </List.Item>
     );
   }
 
+  function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch({ type: "SET_INPUT", name: e.target.name, value: e.target.value });
+  }
   return (
     <div style={styles.container}>
+      <Input
+        onChange={onChange}
+        value={state.form.name}
+        placeholder="Note Name"
+        name="name"
+        style={styles.input}
+      />
+      <Input
+        onChange={onChange}
+        value={state.form.description}
+        placeholder="Note Description"
+        name="description"
+        style={styles.input}
+      />
+      <Button onClick={createNote} type="primary">
+        Create Note
+      </Button>
       <List
         loading={state.loading}
         dataSource={state.notes}
@@ -61,7 +144,7 @@ function App() {
       />
     </div>
   );
-}
+};
 
 const styles = {
   container: { padding: 20 },
