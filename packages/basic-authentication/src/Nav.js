@@ -30,8 +30,6 @@ function Nav(props) {
   return (
     <div>
       <Menu
-        selectedKeys={[current]}
-        openKeys={[current]}
         onClick={({ key }) => {
           switch (key) {
             case "home": {
