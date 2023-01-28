@@ -1,6 +1,6 @@
 import React from "react";
 import { Menu } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   HomeOutlined,
@@ -9,37 +9,29 @@ import {
 } from "@ant-design/icons";
 
 const items = [
-  { icon: <HomeOutlined />, title: "Home", key: "home", label: "Home" },
+  { icon: <HomeOutlined />, title: "Home", key: "/", label: "Home" },
   {
     icon: <ProfileOutlined />,
     title: "Profile",
-    key: "profile",
+    key: "/profile",
     label: "Profile",
   },
   {
     icon: <FileProtectOutlined />,
     title: "Protected",
-    key: "protected",
+    key: "/protected",
     label: "Protected",
   },
 ];
 
-function Nav(props) {
-  const { current } = props;
+function Nav() {
   const navigate = useNavigate();
+  const location = useLocation();
   return (
     <div>
       <Menu
-        onClick={({ key }) => {
-          switch (key) {
-            case "home": {
-              navigate("/");
-              return;
-            }
-            default:
-              navigate(key);
-          }
-        }}
+        selectedKeys={[location.pathname]}
+        onClick={({ key }) => navigate(key)}
         items={items}
       ></Menu>
     </div>

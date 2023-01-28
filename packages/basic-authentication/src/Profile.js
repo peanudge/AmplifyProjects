@@ -1,7 +1,7 @@
 import { Auth } from "aws-amplify";
 import React, { useEffect, useState } from "react";
 import Container from "./Cotainer";
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import protectedRoute from "./hoc/protectedRoute";
 
 async function signOut() {
   try {
@@ -25,15 +25,16 @@ function Profile() {
       console.log("error: ", err);
     }
   }
+  const isSignIn = user.username !== undefined;
   return (
     <Container>
       <h1>Profile</h1>
       <h2>Username: {user.username}</h2>
       <h3>Email: {user.email}</h3>
       <h4>Phone: {user.phone_number}</h4>
-      <button onClick={signOut}>Sign out</button>
+      {isSignIn && <button onClick={signOut}>Sign out</button>}
     </Container>
   );
 }
 
-export default withAuthenticator(Profile);
+export default protectedRoute(Profile);

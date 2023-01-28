@@ -8,23 +8,18 @@ import Protected from "./Protected";
 
 const Router = () => {
   const [current, setCurrent] = useState("home");
+
   useEffect(() => {
     setRoute();
-    window.addEventListener("hashchange", () => {
-      // TODO: Fix hashchange event not invoke when click nav item
-      setRoute();
-    });
-    return () => window.removeEventListener("hashchange", setRoute);
   }, []);
 
   function setRoute() {
     const location = window.location.href.split("/");
     const pathname = location[location.length - 1];
-    console.log(pathname);
     setCurrent(pathname ? pathname : "home");
   }
   return (
-    <HashRouter>
+    <HashRouter window={window}>
       <Nav current={current} />
       <Routes>
         <Route exact path="/" element={<Public />} />
