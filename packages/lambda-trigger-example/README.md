@@ -7,4 +7,22 @@
 
 ## Add 'Admin' Group after email confirmation
 
+```
+$ amplify add auth
+...
+? Do you want to enable any of the following capabilities? Add User to Group
+...
+```
+
 Using Post-Confirmation Lambda Trigger
+
+## Resize Image after upload on s3 storage
+
+<a href="https://asciinema.org/a/UkFYO79WlMUzEhpHLLBOFYaxq" target="_blank"><img src="https://asciinema.org/a/UkFYO79WlMUzEhpHLLBOFYaxq.svg" /></a>
+
+```
+$ amplify add storage
+...
+? Select from one of the below mentioned services: (Use arrow keys)
+?
+```

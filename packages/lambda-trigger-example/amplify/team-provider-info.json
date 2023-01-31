@@ -21,7 +21,14 @@
           "GROUP": "Admin",
           "deploymentBucketName": "amplify-lambdatriggerexample-dev-134809-deployment",
           "s3Key": "amplify-builds/lambdatriggerexample7fa033c7PostConfirmation-7670684250634a513461-build.zip"
+        },
+        "S3Triggerb3809bd9": {
+          "deploymentBucketName": "amplify-lambdatriggerexample-dev-134809-deployment",
+          "s3Key": "amplify-builds/S3Triggerb3809bd9-772f2b5231637441342f-build.zip"
         }
+      },
+      "storage": {
+        "images": {}
       }
     }
   }

@@ -1,0 +1,18 @@
+{
+  "resourceName": "images",
+  "policyUUID": "654e93ef",
+  "bucketName": "lambdatriggerexample403e0f56c51449c5a3edd7053fe",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Triggerb3809bd9",
+  "groupAccess": {}
+}
