@@ -12,6 +12,9 @@ Use NX [`package-based` scaffold](https://nx.dev/getting-started/package-based-r
 $ npx create-nx-workspace@latest package-based --preset=npm
 ```
 
-# Example
+# Training Branches
 
 - Serverless Lambda and API Gateway(branch: `training/serverless`)
+- Auth(AWS Cognito Service) with custom form(branch: `training/auth`)
+- GraphQL (AWS AppSync) (branch: `training/graphql`)
+  - Need to understand more
