@@ -3,6 +3,7 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { Auth } from "aws-amplify";
 import { useEffect, useState } from "react";
 import "./App.css";
+import ImageUploadForm from "./ImageUploadForm";
 
 function App() {
   const [user, updateUser] = useState<CognitoUser | null>(null);
@@ -34,6 +35,8 @@ function App() {
         {isAdmin && <p>Welcome, Admin</p>}
       </header>
       <button onClick={() => Auth.signOut()}>Sign Out</button>
+
+      <ImageUploadForm />
     </div>
   );
 }
