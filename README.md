@@ -14,7 +14,7 @@ $ npx create-nx-workspace@latest package-based --preset=npm
 
 # Training Branches
 
-- Serverless Lambda and API Gateway(branch: `training/serverless`)
-- Auth(AWS Cognito Service) with custom form(branch: `training/auth`)
+- Serverless Lambda and API Gateway (branch: `training/serverless`)
+- Auth(AWS Cognito Service) with custom form (branch: `training/auth`)
 - GraphQL (AWS AppSync) (branch: `training/graphql`)
-  - Need to understand more
+- Other Lambda Triggers(PostConfirmation, S3 Uplaod) (branch: `training/lambda-s3-event-trigger`)
