@@ -1,6 +1,22 @@
 {
+  "api": {
+    "api156800ac": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ecommercefunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
-    "ecommerceapp4b5ef3b0": {
+    "ecomerceapp32ffc85e": {
       "customAuth": false,
       "dependsOn": [
         {
@@ -9,7 +25,7 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "ecommerceapp4b5ef3b0PostConfirmation",
+          "resourceName": "ecomerceapp32ffc85ePostConfirmation",
           "triggerProvider": "Cognito"
         }
       ],
@@ -36,18 +52,64 @@
     }
   },
   "function": {
-    "ecommerceapp4b5ef3b0PostConfirmation": {
+    "ecomerceapp32ffc85ePostConfirmation": {
       "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ecommercefunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "ecomerceapp32ffc85e"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "parameters": {
-    "AMPLIFY_function_ecommerceapp4b5ef3b0PostConfirmation_GROUP": {
+    "AMPLIFY_function_ecomerceapp32ffc85ePostConfirmation_GROUP": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "ecommerceapp4b5ef3b0PostConfirmation"
+          "resourceName": "ecomerceapp32ffc85ePostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_ecomerceapp32ffc85ePostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ecomerceapp32ffc85ePostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_ecomerceapp32ffc85ePostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ecomerceapp32ffc85ePostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_ecommercefunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ecommercefunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_ecommercefunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ecommercefunction"
         }
       ]
     }

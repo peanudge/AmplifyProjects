@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "auth": {
+      "ecomerceapp32ffc85e": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
