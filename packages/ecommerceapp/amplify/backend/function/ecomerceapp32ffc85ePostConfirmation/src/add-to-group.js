@@ -9,7 +9,7 @@ const cognitoidentityserviceprovider = new aws.CognitoIdentityServiceProvider({
  */
 exports.handler = async (event) => {
   let isAdmin = false;
-  const adminEmails = ["dabit3@gmail.com"];
+  const adminEmails = ["jihoson94@gmail.com"];
 
   if (adminEmails.indexOf(event.request.userAttributes.email) !== -1) {
     isAdmin = true;
