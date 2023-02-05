@@ -26,8 +26,9 @@ let userpoolId = process.env.AUTH_ECOMERCEAPP32FFC85E_USERPOOLID; // NOTE: autom
 
 // DynamoDB cconfiguration
 const region = process.env.REGION;
-// const ddb_table_name = "producttable";
-const ddb_table_name = process.env.STORAGE_PRODUCTTABLE_NAME;
+
+const ddb_table_name = "producttable";
+
 const docClient = new AWS.DynamoDB.DocumentClient({ region });
 
 async function getGroupsForUser(event) {
